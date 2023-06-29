@@ -19,8 +19,8 @@ public class KetugouArea : MonoBehaviour
    
 
     private Atom _atomName;
-    private bool isMouseEnter = false;
-    private bool isEnterJudge = true;
+    
+    private bool isFullStack = false;
 
     //‚¢‚Ü“ü‚Á‚Ä‚¢‚éatom‚ð•Û‘¶‚·‚éƒŠƒXƒg
     private List<Atom> _inConnectArea = new List<Atom>();
@@ -39,7 +39,7 @@ public class KetugouArea : MonoBehaviour
        
         _atomScript = other.gameObject.GetComponent<AtomScript>();
        
-        if (isEnterJudge)
+        if (isFullStack==false)
             _atomScript.isEnterArea = true;
         else
         {
@@ -58,6 +58,10 @@ public class KetugouArea : MonoBehaviour
     {
         _atomName = atom;
         _inConnectArea.Add(atom);
+        if (_inConnectArea.Count == 5)
+        {
+            isFullStack = true;
+        }
         DropAtom();
 
     }
@@ -78,13 +82,14 @@ public class KetugouArea : MonoBehaviour
         print(AtomList[3]);
         */
 
-        isEnterJudge = true;
+       
         
     }
 
     public void ListDerete()
     {
         _inConnectArea.RemoveRange(0, _inConnectArea.Count);
+        isFullStack = false;
     }
 
     public void DropAtom()
@@ -115,7 +120,7 @@ public class KetugouArea : MonoBehaviour
     }
     public void Ketugou()
     {
-
+        isFullStack = false;
     }
 
 }
