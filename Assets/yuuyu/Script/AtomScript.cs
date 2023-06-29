@@ -63,10 +63,6 @@ public class AtomScript : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
             transform.position = prevPos;
     }
 
-    
 
-   
-
-    
 
 }

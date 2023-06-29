@@ -13,7 +13,12 @@ public enum Atom
 
 public class KetugouArea : MonoBehaviour
 {
-    //private Atom _atomName;
+    //Atomをフラスコのなかで生成する場所
+    [SerializeField] private Transform DropAtomPos;
+    [SerializeField] private GameObject[] _atomObjS;
+   
+
+    private Atom _atomName;
     private bool isMouseEnter = false;
     private bool isEnterJudge = true;
 
@@ -25,25 +30,15 @@ public class KetugouArea : MonoBehaviour
     //Atomのスクリプトを代入する
     private AtomScript _atomScript;
 
-    /*
-    void OnMouseEnter()
+    void Start()
     {
-        isMouseEnter = true;
-        print("a");
+        //DropAtomPos = GameObject.Find("AtomDropArea").transform;
     }
-
-    void OnMouseExit()
-    {
-        isMouseEnter = false;
-        print("b");
-    }
-    */
-
     public void OnTriggerEnter2D(Collider2D other)
     {
        
         _atomScript = other.gameObject.GetComponent<AtomScript>();
-        //_atomName =_atomScript.CheckAtomName();
+       
         if (isEnterJudge)
             _atomScript.isEnterArea = true;
         else
@@ -61,11 +56,10 @@ public class KetugouArea : MonoBehaviour
     }
     public void AddAtom(Atom atom)
     {
-        //_atomName = atom;
+        _atomName = atom;
         _inConnectArea.Add(atom);
+        DropAtom();
 
-
-        //print(_inConnectArea.Count);
     }
 
     public void EnterJudge()
@@ -91,6 +85,33 @@ public class KetugouArea : MonoBehaviour
     public void ListDerete()
     {
         _inConnectArea.RemoveRange(0, _inConnectArea.Count);
+    }
+
+    public void DropAtom()
+    {
+        int num=0;
+        switch (_atomName)
+        {
+            case Atom.H:
+                Debug.Log("春");
+                num = 0;
+                break;
+            case Atom.O:
+                Debug.Log("夏");
+                num = 1;
+                break;
+            case Atom.C:
+                Debug.Log("秋");
+                num = 2;
+                break;
+            case Atom.N:
+                Debug.Log("冬");
+                num = 3;
+                break;
+        }
+
+        GameObject clone = Instantiate(_atomObjS[num], DropAtomPos);
+        clone.transform.position = DropAtomPos.position;
     }
     public void Ketugou()
     {
