@@ -18,7 +18,6 @@ public class KetugouArea : MonoBehaviour
     //フラスコのなかで生成するAtom
     [SerializeField] private GameObject[] _atomObjS;
 
-    [SerializeField] private GameObject[] _MolCard;
 
 
     private Atom _atomName;
@@ -32,6 +31,8 @@ public class KetugouArea : MonoBehaviour
 
     //Atomのスクリプトを代入する
     private AtomScript _atomScript;
+    //MolCardのスクリプトを入れる
+    [SerializeField] private MolCardArea _molCardArea;
 
     void Start()
     {
@@ -72,7 +73,7 @@ public class KetugouArea : MonoBehaviour
     }
 
     //結合ボタンおすとよびだされる何を結合するかを判断する関数
-    public void EnterJudge()
+    public int EnterJudge()
     {
 
         AtomList[0]=_inConnectArea.Count(x => x == Atom.H);
@@ -80,25 +81,32 @@ public class KetugouArea : MonoBehaviour
         AtomList[2]=_inConnectArea.Count(x => x == Atom.C);
         AtomList[3]=_inConnectArea.Count(x => x == Atom.N);
 
+        //配列に入れたカードを呼び出すための番号（100は絶対にありえない数値を初期値としている）
+        int cardNumber = 1000;
+
         if (AtomList[0] == 2)
         {
             if (AtomList[1] == 1 && AtomList[2] == 0 && AtomList[3] == 0)
             {
                 print("H2O");
+                return cardNumber = 0;
 
             }
             else if (AtomList[1] == 0 && AtomList[2] == 0 && AtomList[3] == 0)
             {
                 print("H2");
+                return cardNumber = 1;
             }
         }
         else if (AtomList[0] == 3 && AtomList[1] == 0 && AtomList[2] == 0 && AtomList[3] == 1)
         {
             print("NH3");
+            return cardNumber = 2;
         }
         else if (AtomList[0] == 4 && AtomList[1] == 0 && AtomList[2] == 1 && AtomList[3] == 0)
         {
             print("CH4");
+            return cardNumber = 3;
         }
 
         if (AtomList[1] == 1)
@@ -106,10 +114,12 @@ public class KetugouArea : MonoBehaviour
             if (AtomList[0] == 0 && AtomList[2] == 1 && AtomList[3] == 0)
             {
                 print("CO");
+                return cardNumber = 4;
             }
             else if (AtomList[0] == 0 && AtomList[2] == 0 && AtomList[3] == 1)
             {
                 print("NO");
+                return cardNumber = 5;
             }
         }
         else if (AtomList[1] == 2)
@@ -117,10 +127,12 @@ public class KetugouArea : MonoBehaviour
             if (AtomList[0] == 0 && AtomList[2] == 1 && AtomList[3] == 0)
             {
                 print("CO2");
+                return cardNumber = 6;
             }
             else if (AtomList[0] == 0 && AtomList[2] == 0 && AtomList[3] == 0)
             {
                 print("O2");
+                return cardNumber = 7;
             }
         }
         else if (AtomList[1] == 3 )
@@ -128,33 +140,33 @@ public class KetugouArea : MonoBehaviour
             if( AtomList[0] == 0 && AtomList[2] == 0 && AtomList[3] == 0)
             {
                 print("O3");
+                return cardNumber = 8;
             }
             
         }
         if (AtomList[0] == 0 && AtomList[1] == 0 && AtomList[2] == 0 && AtomList[3] == 2)
         {
             print("N2");
+            return cardNumber = 9;
         }
-        
 
-        
-        /*
-        print(AtomList[0]);
-        print(AtomList[1]);
-        print(AtomList[2]);
-        print(AtomList[3]);
-        */
-
-       
+        return cardNumber;
         
     }
 
     public void ListDerete()
     {
+        //Listのアトムの情報を消去
         _inConnectArea.RemoveRange(0, _inConnectArea.Count);
+        //中に生成されたAtomを消去
+        foreach (Transform n in DropAtomPos)
+        {
+            GameObject.Destroy(n.gameObject);
+        }
         isFullStack = false;
     }
 
+    //Atomをフラスコないに生成
     public void DropAtom()
     {
         int num=0;
@@ -181,7 +193,11 @@ public class KetugouArea : MonoBehaviour
     public void Ketugou()
     {
         print("結合");
-        EnterJudge();
+        print(EnterJudge());
+        //モルカードそ生成するエリアのほうで生成
+        _molCardArea.GenerateMolCard(EnterJudge());
+        
+        ListDerete();
         isFullStack = false;
     }
 
