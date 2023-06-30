@@ -40,11 +40,15 @@ public class KetugouArea : MonoBehaviour
     }
     public void OnTriggerEnter2D(Collider2D other)
     {
-       
+        print("aaa");
         _atomScript = other.gameObject.GetComponent<AtomScript>();
        
-        if (isFullStack==false)
+        if (isFullStack == false)
+        {
+            print("bb");
             _atomScript.isEnterArea = true;
+        }
+            
         else
         {
 
@@ -187,18 +191,27 @@ public class KetugouArea : MonoBehaviour
         }
 
         GameObject clone = Instantiate(_atomObjS[num], DropAtomPos);
-        clone.transform.position = DropAtomPos.position;
+        
+        float randomPosX = Random.Range(-40, 40);
+        Vector3 generateAtomSPos = new Vector3(DropAtomPos.position.x + randomPosX, DropAtomPos.position.y, DropAtomPos.position.z);
+        //clone.transform.position = DropAtomPos.position;
+        clone.transform.position = generateAtomSPos;
     }
 
     public void Ketugou()
     {
         print("結合");
-        print(EnterJudge());
-        //モルカードそ生成するエリアのほうで生成
-        _molCardArea.GenerateMolCard(EnterJudge());
+        int n = EnterJudge();
         
-        ListDerete();
-        isFullStack = false;
+        //モルカードそ生成するエリアのほうで生成
+        _molCardArea.GenerateMolCard(n);
+        if (n < 10)
+        {
+            ListDerete();
+            isFullStack = false;
+        }
+
+
     }
 
 }
