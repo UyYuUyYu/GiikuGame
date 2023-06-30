@@ -15,8 +15,11 @@ public class KetugouArea : MonoBehaviour
 {
     //Atomをフラスコのなかで生成する場所
     [SerializeField] private Transform DropAtomPos;
+    //フラスコのなかで生成するAtom
     [SerializeField] private GameObject[] _atomObjS;
-   
+
+    [SerializeField] private GameObject[] _MolCard;
+
 
     private Atom _atomName;
     
@@ -58,14 +61,17 @@ public class KetugouArea : MonoBehaviour
     {
         _atomName = atom;
         _inConnectArea.Add(atom);
+        //中身が5個以上はいらないように
         if (_inConnectArea.Count == 5)
         {
             isFullStack = true;
+            //print("もう入らない");
         }
         DropAtom();
 
     }
 
+    //結合ボタンおすとよびだされる何を結合するかを判断する関数
     public void EnterJudge()
     {
 
@@ -73,6 +79,63 @@ public class KetugouArea : MonoBehaviour
         AtomList[1]=_inConnectArea.Count(x => x == Atom.O);
         AtomList[2]=_inConnectArea.Count(x => x == Atom.C);
         AtomList[3]=_inConnectArea.Count(x => x == Atom.N);
+
+        if (AtomList[0] == 2)
+        {
+            if (AtomList[1] == 1 && AtomList[2] == 0 && AtomList[3] == 0)
+            {
+                print("H2O");
+
+            }
+            else if (AtomList[1] == 0 && AtomList[2] == 0 && AtomList[3] == 0)
+            {
+                print("H2");
+            }
+        }
+        else if (AtomList[0] == 3 && AtomList[1] == 0 && AtomList[2] == 0 && AtomList[3] == 1)
+        {
+            print("NH3");
+        }
+        else if (AtomList[0] == 4 && AtomList[1] == 0 && AtomList[2] == 1 && AtomList[3] == 0)
+        {
+            print("CH4");
+        }
+
+        if (AtomList[1] == 1)
+        {
+            if (AtomList[0] == 0 && AtomList[2] == 1 && AtomList[3] == 0)
+            {
+                print("CO");
+            }
+            else if (AtomList[0] == 0 && AtomList[2] == 0 && AtomList[3] == 1)
+            {
+                print("NO");
+            }
+        }
+        else if (AtomList[1] == 2)
+        {
+            if (AtomList[0] == 0 && AtomList[2] == 1 && AtomList[3] == 0)
+            {
+                print("CO2");
+            }
+            else if (AtomList[0] == 0 && AtomList[2] == 0 && AtomList[3] == 0)
+            {
+                print("O2");
+            }
+        }
+        else if (AtomList[1] == 3 )
+        {
+            if( AtomList[0] == 0 && AtomList[2] == 0 && AtomList[3] == 0)
+            {
+                print("O3");
+            }
+            
+        }
+        if (AtomList[0] == 0 && AtomList[1] == 0 && AtomList[2] == 0 && AtomList[3] == 2)
+        {
+            print("N2");
+        }
+        
 
         
         /*
@@ -98,19 +161,15 @@ public class KetugouArea : MonoBehaviour
         switch (_atomName)
         {
             case Atom.H:
-                Debug.Log("春");
                 num = 0;
                 break;
             case Atom.O:
-                Debug.Log("夏");
                 num = 1;
                 break;
             case Atom.C:
-                Debug.Log("秋");
                 num = 2;
                 break;
             case Atom.N:
-                Debug.Log("冬");
                 num = 3;
                 break;
         }
@@ -118,8 +177,11 @@ public class KetugouArea : MonoBehaviour
         GameObject clone = Instantiate(_atomObjS[num], DropAtomPos);
         clone.transform.position = DropAtomPos.position;
     }
+
     public void Ketugou()
     {
+        print("結合");
+        EnterJudge();
         isFullStack = false;
     }
 
