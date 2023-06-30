@@ -13,9 +13,16 @@ public enum Atom
 
 public class KetugouArea : MonoBehaviour
 {
-    //private Atom _atomName;
-    private bool isMouseEnter = false;
-    private bool isEnterJudge = true;
+    //Atomをフラスコのなかで生成する場所
+    [SerializeField] private Transform DropAtomPos;
+    //フラスコのなかで生成するAtom
+    [SerializeField] private GameObject[] _atomObjS;
+
+
+
+    private Atom _atomName;
+    
+    private bool isFullStack = false;
 
     //いま入っているatomを保存するリスト
     private List<Atom> _inConnectArea = new List<Atom>();
@@ -24,27 +31,19 @@ public class KetugouArea : MonoBehaviour
 
     //Atomのスクリプトを代入する
     private AtomScript _atomScript;
+    //MolCardのスクリプトを入れる
+    [SerializeField] private MolCardArea _molCardArea;
 
-    /*
-    void OnMouseEnter()
+    void Start()
     {
-        isMouseEnter = true;
-        print("a");
+        //DropAtomPos = GameObject.Find("AtomDropArea").transform;
     }
-
-    void OnMouseExit()
-    {
-        isMouseEnter = false;
-        print("b");
-    }
-    */
-
     public void OnTriggerEnter2D(Collider2D other)
     {
        
         _atomScript = other.gameObject.GetComponent<AtomScript>();
-        //_atomName =_atomScript.CheckAtomName();
-        if (isEnterJudge)
+       
+        if (isFullStack==false)
             _atomScript.isEnterArea = true;
         else
         {
@@ -61,14 +60,20 @@ public class KetugouArea : MonoBehaviour
     }
     public void AddAtom(Atom atom)
     {
-        //_atomName = atom;
+        _atomName = atom;
         _inConnectArea.Add(atom);
+        //中身が5個以上はいらないように
+        if (_inConnectArea.Count == 5)
+        {
+            isFullStack = true;
+            //print("もう入らない");
+        }
+        DropAtom();
 
-
-        //print(_inConnectArea.Count);
     }
 
-    public void EnterJudge()
+    //結合ボタンおすとよびだされる何を結合するかを判断する関数
+    public int EnterJudge()
     {
 
         AtomList[0]=_inConnectArea.Count(x => x == Atom.H);
@@ -76,25 +81,124 @@ public class KetugouArea : MonoBehaviour
         AtomList[2]=_inConnectArea.Count(x => x == Atom.C);
         AtomList[3]=_inConnectArea.Count(x => x == Atom.N);
 
-        
-        /*
-        print(AtomList[0]);
-        print(AtomList[1]);
-        print(AtomList[2]);
-        print(AtomList[3]);
-        */
+        //配列に入れたカードを呼び出すための番号（100は絶対にありえない数値を初期値としている）
+        int cardNumber = 1000;
 
-        isEnterJudge = true;
+        if (AtomList[0] == 2)
+        {
+            if (AtomList[1] == 1 && AtomList[2] == 0 && AtomList[3] == 0)
+            {
+                print("H2O");
+                return cardNumber = 0;
+
+            }
+            else if (AtomList[1] == 0 && AtomList[2] == 0 && AtomList[3] == 0)
+            {
+                print("H2");
+                return cardNumber = 1;
+            }
+        }
+        else if (AtomList[0] == 3 && AtomList[1] == 0 && AtomList[2] == 0 && AtomList[3] == 1)
+        {
+            print("NH3");
+            return cardNumber = 2;
+        }
+        else if (AtomList[0] == 4 && AtomList[1] == 0 && AtomList[2] == 1 && AtomList[3] == 0)
+        {
+            print("CH4");
+            return cardNumber = 3;
+        }
+
+        if (AtomList[1] == 1)
+        {
+            if (AtomList[0] == 0 && AtomList[2] == 1 && AtomList[3] == 0)
+            {
+                print("CO");
+                return cardNumber = 4;
+            }
+            else if (AtomList[0] == 0 && AtomList[2] == 0 && AtomList[3] == 1)
+            {
+                print("NO");
+                return cardNumber = 5;
+            }
+        }
+        else if (AtomList[1] == 2)
+        {
+            if (AtomList[0] == 0 && AtomList[2] == 1 && AtomList[3] == 0)
+            {
+                print("CO2");
+                return cardNumber = 6;
+            }
+            else if (AtomList[0] == 0 && AtomList[2] == 0 && AtomList[3] == 0)
+            {
+                print("O2");
+                return cardNumber = 7;
+            }
+        }
+        else if (AtomList[1] == 3 )
+        {
+            if( AtomList[0] == 0 && AtomList[2] == 0 && AtomList[3] == 0)
+            {
+                print("O3");
+                return cardNumber = 8;
+            }
+            
+        }
+        if (AtomList[0] == 0 && AtomList[1] == 0 && AtomList[2] == 0 && AtomList[3] == 2)
+        {
+            print("N2");
+            return cardNumber = 9;
+        }
+
+        return cardNumber;
         
     }
 
     public void ListDerete()
     {
+        //Listのアトムの情報を消去
         _inConnectArea.RemoveRange(0, _inConnectArea.Count);
+        //中に生成されたAtomを消去
+        foreach (Transform n in DropAtomPos)
+        {
+            GameObject.Destroy(n.gameObject);
+        }
+        isFullStack = false;
     }
+
+    //Atomをフラスコないに生成
+    public void DropAtom()
+    {
+        int num=0;
+        switch (_atomName)
+        {
+            case Atom.H:
+                num = 0;
+                break;
+            case Atom.O:
+                num = 1;
+                break;
+            case Atom.C:
+                num = 2;
+                break;
+            case Atom.N:
+                num = 3;
+                break;
+        }
+
+        GameObject clone = Instantiate(_atomObjS[num], DropAtomPos);
+        clone.transform.position = DropAtomPos.position;
+    }
+
     public void Ketugou()
     {
-
+        print("結合");
+        print(EnterJudge());
+        //モルカードそ生成するエリアのほうで生成
+        _molCardArea.GenerateMolCard(EnterJudge());
+        
+        ListDerete();
+        isFullStack = false;
     }
 
 }
