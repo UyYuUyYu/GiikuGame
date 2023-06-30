@@ -52,8 +52,6 @@ public class AtomScript : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
         {
             //アトムを追加する
             ketugouArea.AddAtom(_atom);
-            //アトムをおけるか
-            ketugouArea.EnterJudge();
 
             //別のアトムを生成する
             atomGenerate.Genrate();
@@ -63,10 +61,6 @@ public class AtomScript : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
             transform.position = prevPos;
     }
 
-    
 
-   
-
-    
 
 }
