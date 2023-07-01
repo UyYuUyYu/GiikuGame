@@ -1,31 +1,60 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
-public class MolCardArea : MonoBehaviour
+public class MolCardArea : MonoBehaviourPunCallbacks
 {
     [SerializeField] private GameObject[] _MolCard;
-    private List<int> _MolCardNumber = new List<int>();
+    [SerializeField] private GameObject _EnemyMolCardPos;
+
+    void Awake()
+    {
+        PhotonNetwork.AutomaticallySyncScene = true;
+    }
 
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            SceneManager.LoadScene("Battle");
+        }
+        /*
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            MolCalculation();
+            //print(MolCalculation(_MyMolCardNumber));
+            for (int i = 0; i < MolCardList._MyMolCardNumber.Count; i++)
+            {
+                GenerateMolCard(MolCardList._MyMolCardNumber[i]);
+            }
         }
+        */
     }
-    //MolCardをカードのエリアに生成する
-    public void GenerateMolCard(int n)
+
+    public void AddMolcard(int n)
     {
         if (n < 10)
         {
-            print("aa");
-            _MolCardNumber.Add(n);
-            GameObject clone = Instantiate(_MolCard[n], this.gameObject.transform);
-            clone.transform.position = this.transform.position;
+            MolCardList._MyMolCardNumber.Add(n);
+            GenerateMolCard(n);
         }
-        
+       
+    }
+    //自分のMolCardをカードのエリアに生成する
+    public void GenerateMolCard(int n)
+    {
+        print("aa");
+            
+        GameObject clone = Instantiate(_MolCard[n], this.gameObject.transform);
+        clone.transform.position = this.transform.position;
+    }
+    //相手のMOlカードを生成
+    public void GenerateEnemyMolCard(int n)
+    {
+        GameObject clone = Instantiate(_MolCard[n], _EnemyMolCardPos.transform);
+        clone.transform.position = _EnemyMolCardPos.transform.position;
     }
     //出ているカードを消す
     public void DeleteMolCard()
@@ -38,16 +67,28 @@ public class MolCardArea : MonoBehaviour
     public void DeleteMolCardNumber()
     {
         //ListのmolCardの情報を消去
-        _MolCardNumber.RemoveRange(0, _MolCardNumber.Count);
+        MolCardList._MyMolCardNumber.RemoveRange(0, MolCardList._MyMolCardNumber.Count);
     }
 
-    public void MolCalculation()
+    public int MolCalculation(List<int> MolCardNumber)
     {
+
         int goukei = 0;
-        for(int i = 0; i < _MolCardNumber.Count; i++)
+        for(int i = 0; i < MolCardNumber.Count; i++)
         {
-            goukei = goukei + _MolCard[_MolCardNumber[i]].GetComponent<MolcardInfo>().mass;
+            goukei = goukei + _MolCard[MolCardNumber[i]].GetComponent<MolcardInfo>().mass;
         }
-        //print(goukei);
+        return goukei;
     }
+    
+    [PunRPC]
+    private void EnemyMolCardGenerate(List<int> MolCardNumber)
+    {
+        print("RPC");
+        for (int i = 0; i < MolCardNumber.Count; i++)
+        {
+            GenerateEnemyMolCard(MolCardNumber[i]);
+        }
+    }
+    
 }
