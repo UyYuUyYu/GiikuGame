@@ -204,7 +204,7 @@ public class KetugouArea : MonoBehaviour
         int n = EnterJudge();
         
         //モルカードそ生成するエリアのほうで生成
-        _molCardArea.GenerateMolCard(n);
+        _molCardArea.AddMolcard(n);
         if (n < 10)
         {
             ListDerete();

@@ -11,12 +11,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     public static bool isPlayGame = false;
     private const int _MaxPlayerPerRoom = 2;
     // Start is called before the first frame update
-    private void Awake()
+    void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
     }
     void Start()
     {
+        //DontDestroyOnLoad(this.gameObject);
         // PhotonServerSettingsの設定内容を使ってマスターサーバーへ接続する
         PhotonNetwork.ConnectUsingSettings();
     }
@@ -25,6 +26,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     void Update()
     {
         
+            
     }
     
     // マスターサーバーへの接続が成功した時に呼ばれるコールバック
@@ -37,6 +39,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     // ランダムで参加できるルームが存在しないなら、新規でルームを作成する
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
+
         // ルームの参加人数を2人に設定する
         var roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = _MaxPlayerPerRoom;
@@ -48,6 +51,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     //作成されたルームに入った時
     public override void OnJoinedRoom()
     {
+
         if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers)
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
@@ -87,5 +91,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.Disconnect();
         SceneManager.LoadScene("Start");
     }
+
+   
 
 }
