@@ -40,15 +40,12 @@ public class KetugouArea : MonoBehaviour
     }
     public void OnTriggerEnter2D(Collider2D other)
     {
-        print("aaa");
         _atomScript = other.gameObject.GetComponent<AtomScript>();
        
         if (isFullStack == false)
         {
-            print("bb");
             _atomScript.isEnterArea = true;
         }
-            
         else
         {
 
@@ -200,7 +197,6 @@ public class KetugouArea : MonoBehaviour
 
     public void Ketugou()
     {
-        print("結合");
         int n = EnterJudge();
         
         //モルカードそ生成するエリアのほうで生成
