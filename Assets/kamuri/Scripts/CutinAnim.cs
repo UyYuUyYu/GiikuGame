@@ -31,8 +31,8 @@ public class CutinAnim : MonoBehaviour
     void VsAnim()
     {
         // 初期位置の指定
-        vsPlayerImage.rectTransform.anchoredPosition = new Vector2(-200, vsPlayerStartY);
-        vsEnemyImage.rectTransform.anchoredPosition = new Vector2(200, vsEnemyStartY);
+        vsPlayerImage.rectTransform.anchoredPosition = new Vector2(0, vsPlayerStartY);
+        vsEnemyImage.rectTransform.anchoredPosition = new Vector2(0, vsEnemyStartY);
 
         // フェードイン
         vsPlayerImage.rectTransform.DOAnchorPosY(0f, fadeDuration);
