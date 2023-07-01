@@ -4,11 +4,17 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
+using TMPro;
 
 public class NameScript : MonoBehaviourPunCallbacks
 {
-    [SerializeField] private Text myNameText;
-    [SerializeField] private Text enemyNameText;
+    [SerializeField] private TextMeshProUGUI myNameText;
+    [SerializeField] private TextMeshProUGUI enemyNameText;
+    void Start()
+    {
+        SetMyName();
+        EnemyMyName();
+    }
 
     public void SetMyName()
     {
@@ -16,7 +22,15 @@ public class NameScript : MonoBehaviourPunCallbacks
     }
     public void EnemyMyName()
     {
-        enemyNameText.text = PhotonNetwork.PlayerList[0].NickName;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            enemyNameText.text = PhotonNetwork.PlayerList[1].NickName;
+        }
+        else
+        {
+            enemyNameText.text = PhotonNetwork.PlayerList[0].NickName;
+        }
+           
     }
 
     
