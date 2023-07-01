@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Photon.Pun;
+using Photon.Realtime;
 using TMPro;
 
 
-public class StartSceneManager : MonoBehaviour
+public class StartSceneManager : MonoBehaviourPunCallbacks
 {
     
     [SerializeField] private TextMeshProUGUI inputFieldText;
@@ -16,21 +18,14 @@ public class StartSceneManager : MonoBehaviour
     {
         myName = "Player";
     }
-    void Update()
-    {
-        /*
-        if (Input.GetKey(KeyCode.Space))
-        {
-            myName = inputFieldText.text;
-            SceneManager.LoadScene("WaitingScene");
-            print(myName);
-        }
-        */
-    }
+   
     public void StartButton()
     {
-        SceneManager.LoadScene("WaitingScene");
+        PhotonNetwork.NickName= inputFieldText.text;
         myName = inputFieldText.text;
+        print(PhotonNetwork.NickName);
+        SceneManager.LoadScene("WaitingScene");
+        
     }
     
 }

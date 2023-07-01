@@ -9,12 +9,18 @@ public class MolCardArea : MonoBehaviourPunCallbacks
 {
 
     [SerializeField] private GameObject[] _MolCard;
+    private GameObject _MyMolCardPos;
     [SerializeField] private GameObject _EnemyMolCardPos;
     private int[] MyMolHairetu=new int[] { 100,100,100,100,100,100};
 
     void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
+        _MyMolCardPos = this.gameObject;
+        if (SceneManager.GetActiveScene().name == "Battle")
+        {
+            SetBattleCard();
+        }
     }
 
     void Update()
@@ -27,35 +33,21 @@ public class MolCardArea : MonoBehaviourPunCallbacks
         
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            /*
-            if (PhotonNetwork.IsMasterClient)
-            {
-                print("ますたーです");    
-                //print(MolCalculation(_MyMolCardNumber));
-                for (int i = 0; i < MolCardList._MyMolCardNumber.Count; i++)
-                {
-                    GenerateMolCard(MolCardList._MyMolCardNumber[i]);
-                    MyMolHairetu[i] = MolCardList._MyMolCardNumber[i];
-                }
-                //なんかOtherだとできない
-                //photonView.RPC(nameof(EnemyMolCardGenerate), RpcTarget.OthersBuffered, MolCardList._MyMolCardNumber);
-                photonView.RPC(nameof(EnemyMolCardGenerate), RpcTarget.All, MyMolHairetu);
-            }
-            */
 
-            
-            //print(MolCalculation(_MyMolCardNumber));
-            for (int i = 0; i < MolCardList._MyMolCardNumber.Count; i++)
-            {
-                GenerateMolCard(MolCardList._MyMolCardNumber[i]);
-                MyMolHairetu[i] = MolCardList._MyMolCardNumber[i];
-            }
-            //なんかOtherだとできない
-            //photonView.RPC("EnemyMolCardGenerate", PhotonTargets.Others, MolCardList._MyMolCardNumber);
-            photonView.RPC(nameof(EnemyMolCardGenerate), RpcTarget.Others, MyMolHairetu);
 
         }
         
+    }
+
+    //Battleシーンで開いてと自分のカードを表示
+    private void SetBattleCard()
+    {
+        for (int i = 0; i < MolCardList._MyMolCardNumber.Count; i++)
+        {
+            GenerateMolCard(MolCardList._MyMolCardNumber[i]);
+            MyMolHairetu[i] = MolCardList._MyMolCardNumber[i];
+        }
+        photonView.RPC(nameof(EnemyMolCardGenerate), RpcTarget.Others, MyMolHairetu);
     }
 
     public void AddMolcard(int n)
@@ -72,8 +64,8 @@ public class MolCardArea : MonoBehaviourPunCallbacks
     public void GenerateMolCard(int n)
     {
         print("gene");
-        GameObject clone = Instantiate(_MolCard[n], this.gameObject.transform);
-        clone.transform.position = this.transform.position;
+        GameObject clone = Instantiate(_MolCard[n], _MyMolCardPos.transform);
+        clone.transform.position = _MyMolCardPos.transform.position;
     }
     //相手のMOlカードを生成
     public void GenerateEnemyMolCard(int n)
