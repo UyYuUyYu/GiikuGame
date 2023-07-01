@@ -9,8 +9,17 @@ public class FluffyWaveAnim : MonoBehaviour
     [SerializeField] float duration = 1f; //アニメーション時間
     [SerializeField] float amplitude = 0.2f; //振幅
 
+    float DelayTime;
     void Start()
     {
+        DelayTime = Random.Range(0, 3);
+        StartCoroutine(TimeCount());//コルーチンの開始
+
+    }
+    private IEnumerator TimeCount()//コルーチンで行う処理の定義
+    {
+            yield return new WaitForSeconds(DelayTime);
+
         atomTransform = GetComponent<Transform>();
         Sequence sequence = DOTween.Sequence()
             .SetLoops(-1, LoopType.Restart);
@@ -22,4 +31,6 @@ public class FluffyWaveAnim : MonoBehaviour
 
         sequence.Play();
     }
+
+
 }

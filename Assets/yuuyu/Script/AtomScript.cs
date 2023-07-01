@@ -51,7 +51,6 @@ public class AtomScript : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
         // Areaに入っていたら消す、入っていなかったらドラッグ前の位置に戻す
         if (isEnterArea)
         {
-            print("cc");
             //アトムを追加する
             ketugouArea.AddAtom(_atom);
 

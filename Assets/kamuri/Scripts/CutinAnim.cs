@@ -23,6 +23,9 @@ public class CutinAnim : MonoBehaviour
     [SerializeField] float phaseEndX = 500f;
     [SerializeField] float readygoEndY = 630f;
 
+    [SerializeField] private GameObject _MainGameObj;
+    [SerializeField] private GameObject _StartTransition;
+
     void Start()
     {
         VsAnim();
@@ -106,8 +109,12 @@ public class CutinAnim : MonoBehaviour
                 .OnComplete(() =>
                 {
                     goTransform.gameObject.SetActive(false);
+                    _MainGameObj.SetActive(true);
+                    _StartTransition.SetActive(false);
+
                 });
             });
+
     }
 
 }
