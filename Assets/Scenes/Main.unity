@@ -2167,8 +2167,6 @@ GameObject:
   - component: {fileID: 2037733089}
   - component: {fileID: 2037733088}
   - component: {fileID: 2037733087}
-  - component: {fileID: 2037733086}
-  - component: {fileID: 2037733085}
   m_Layer: 5
   m_Name: EnemyMolCardArea
   m_TagString: Untagged
@@ -2196,40 +2194,6 @@ RectTransform:
   m_AnchoredPosition: {x: -4.0711, y: -225}
   m_SizeDelta: {x: 112.8689, y: 107.0197}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2037733085
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2037733083}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5216c4eeacdf4f444a7a0cbaa479526a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2037733086
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2037733083}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 2
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!114 &2037733087
 MonoBehaviour:
   m_ObjectHideFlags: 0
