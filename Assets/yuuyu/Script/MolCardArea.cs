@@ -60,6 +60,7 @@ public class MolCardArea : MonoBehaviourPunCallbacks
 
     public void AddMolcard(int n)
     {
+        print("ADd");
         if (n < 10)
         {
             MolCardList._MyMolCardNumber.Add(n);
@@ -70,7 +71,7 @@ public class MolCardArea : MonoBehaviourPunCallbacks
     //自分のMolCardをカードのエリアに生成する
     public void GenerateMolCard(int n)
     {
-        
+        print("gene");
         GameObject clone = Instantiate(_MolCard[n], this.gameObject.transform);
         clone.transform.position = this.transform.position;
     }
