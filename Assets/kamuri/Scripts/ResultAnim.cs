@@ -17,6 +17,8 @@ public class ResultAnim : MonoBehaviour
     static public int enemyScore;
     float duration = 1f;
 
+    [SerializeField] GameObject _QuitButton;
+
     void Start()
     {
         HalfAnim();
@@ -40,7 +42,9 @@ public class ResultAnim : MonoBehaviour
                 {
                     DrawAnim();
                 }
+                
             });
+
     }
 
     void PlayerWinAnim()
@@ -58,7 +62,8 @@ public class ResultAnim : MonoBehaviour
                 .SetEase(Ease.OutElastic);
                 winTextImage.DOFade(1f, duration)
                 .SetDelay(duration / 2f)
-                .SetEase(Ease.OutQuad);
+                .SetEase(Ease.OutQuad)
+                .OnComplete(() => { _QuitButton.SetActive(true); });
             });
     }
 
@@ -77,7 +82,8 @@ public class ResultAnim : MonoBehaviour
                 .SetEase(Ease.OutElastic);
                 loseTextImage.DOFade(1f, duration)
                 .SetDelay(duration / 2f)
-                .SetEase(Ease.OutQuad);
+                .SetEase(Ease.OutQuad)
+                .OnComplete(() => { _QuitButton.SetActive(true); });
             });
     }
 
@@ -95,7 +101,8 @@ public class ResultAnim : MonoBehaviour
                 .SetEase(Ease.OutElastic);
                 drawTextImage.DOFade(1f, duration)
                 .SetDelay(duration / 2f)
-                .SetEase(Ease.OutQuad);
+                .SetEase(Ease.OutQuad)
+                .OnComplete(() => { _QuitButton.SetActive(true); });
             });
     }
 }
