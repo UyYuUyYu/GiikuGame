@@ -11,6 +11,8 @@ public class MolCardArea : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject[] _MolCard;
     private GameObject _MyMolCardPos;
     [SerializeField] private GameObject _EnemyMolCardPos;
+
+    [SerializeField] private GameObject _ResultAnime;
     private int[] MyMolHairetu=new int[] { 100,100,100,100,100,100};
     int enemyGoukei = 0;
 
@@ -27,7 +29,7 @@ public class MolCardArea : MonoBehaviourPunCallbacks
         if(SceneManager.GetActiveScene().name == "Battle")
         {
             // SetBattleCard();
-            StartCoroutine(TimeCount());//コルーチンの開始
+            //StartCoroutine(TimeCount());//コルーチンの開始
         }
     }
     
@@ -48,11 +50,12 @@ public class MolCardArea : MonoBehaviourPunCallbacks
         
     }
 
-    private IEnumerator TimeCount()//コルーチンで行う処理の定義
+    public IEnumerator TimeCount()//コルーチンで行う処理の定義
     {
         yield return new WaitForSeconds(0.5f);
         SetBattleCard();
         SetScore();
+        _ResultAnime.SetActive(true);
     }
 
 

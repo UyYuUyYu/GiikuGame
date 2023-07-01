@@ -4,15 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using Photon.Pun;
+using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
-public class TimeUpAnim : MonoBehaviour
+public class TimeUpAnim : MonoBehaviourPunCallbacks
 {
     [SerializeField] TextMeshProUGUI timeupText;
     float duration = 1f;
     float scaleMult = 2f;
 
-    void Start()
+    public void TimeUpEffet()
     {
+        
         timeupText.transform.SetAsLastSibling();
         timeupText.transform.localScale = Vector3.zero;
         timeupText.color = new Color(timeupText.color.r, timeupText.color.g, timeupText.color.g, 0f);
@@ -29,8 +33,10 @@ public class TimeUpAnim : MonoBehaviour
            .SetEase(Ease.InBack));
         sequence.Join(timeupText.DOFade(0f, duration * 0.4f)
             .SetDelay(duration * 0.6f));
-        sequence.OnComplete(() => timeupText.gameObject.SetActive(false));
 
-        sequence.Play();
+        sequence.Play().OnComplete(() => { timeupText.gameObject.SetActive(false); SceneManager.LoadSceneAsync("Battle", LoadSceneMode.Single); });
+
+        
+        //;SceneManager.LoadSceneAsync("Battle", LoadSceneMode.Single);
     }
 }

@@ -10,8 +10,9 @@ public class BattlePhaseAnim : MonoBehaviour
     float fadeDuration = 1f;
     [SerializeField] int blinlCount = 2;
     float blinkDuration = 0.2f;
-    float battlePhaseStartX = -500f;
-    float battlePhaseEndX = 500f;
+    [SerializeField] float battlePhaseStartX = -500f;
+    [SerializeField] float battlePhaseEndX = 500f;
+    [SerializeField] MolCardArea _MolCardArea;
 
     void Start()
     {
@@ -39,7 +40,11 @@ public class BattlePhaseAnim : MonoBehaviour
                 blinkSequence.Append(battleImage.DOFade(0f, fadeDuration)
                     .SetEase(Ease.Linear));
                 blinkSequence.Join(battleImage.rectTransform.DOAnchorPosX(battlePhaseEndX, fadeDuration)
-                    .SetEase(Ease.Linear));
+                    .SetEase(Ease.Linear))
+                .OnComplete(() => { _MolCardArea.StartCoroutine("TimeCount"); });
+
+
             });
+        
     }
 }
