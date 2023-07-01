@@ -18,16 +18,18 @@ public class StartSceneManager : MonoBehaviour
     }
     void Update()
     {
+        /*
         if (Input.GetKey(KeyCode.Space))
         {
             myName = inputFieldText.text;
             SceneManager.LoadScene("WaitingScene");
             print(myName);
         }
+        */
     }
-    void StartButton()
+    public void StartButton()
     {
-        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene("WaitingScene");
         myName = inputFieldText.text;
     }
     
