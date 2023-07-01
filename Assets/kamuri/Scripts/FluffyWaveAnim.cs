@@ -18,7 +18,7 @@ public class FluffyWaveAnim : MonoBehaviour
     }
     private IEnumerator TimeCount()//コルーチンで行う処理の定義
     {
-            yield return new WaitForSeconds(DelayTime);//５秒経過するまで待つ
+            yield return new WaitForSeconds(DelayTime);
 
         atomTransform = GetComponent<Transform>();
         Sequence sequence = DOTween.Sequence()

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
 public class CountDown : MonoBehaviourPunCallbacks
 {
@@ -29,8 +30,12 @@ public class CountDown : MonoBehaviourPunCallbacks
             }
             else
             {
+                /*
                 if(PhotonNetwork.IsMasterClient)
                     PhotonNetwork.LoadLevel("Battle");
+                */
+
+                SceneManager.LoadSceneAsync("Battle", LoadSceneMode.Single);
             }
             
         }

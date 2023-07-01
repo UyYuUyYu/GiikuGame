@@ -11,8 +11,10 @@ public class ResultAnim : MonoBehaviour
     [SerializeField] Image winTextImage;
     [SerializeField] Image loseTextImage;
     [SerializeField] Image drawTextImage;
-    [SerializeField] int playerScore;
-    [SerializeField] int enemyScore;
+   // [SerializeField] int playerScore;
+    //[SerializeField] int enemyScore;
+    static public int playerScore;
+    static public int enemyScore;
     float duration = 1f;
 
     void Start()
