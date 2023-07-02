@@ -14,21 +14,24 @@ public class MolCardArea : MonoBehaviourPunCallbacks
 
     [SerializeField] private GameObject _ResultAnime;
     private int[] MyMolHairetu=new int[] { 100,100,100,100,100,100};
-    int enemyGoukei = 0;
 
+    int enemyGoukei = 0;
+    static public  bool isFullCardCount = false;
     void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
-        _MyMolCardPos = this.gameObject;
-        
-        
-        
+        _MyMolCardPos = this.gameObject; 
     }
    
     
 
     void Update()
     {
+        if (this.transform.childCount==6)
+        {
+            isFullCardCount = true;
+        }
+            
         /*
         if (Input.GetKeyDown(KeyCode.A))
         {
@@ -42,7 +45,7 @@ public class MolCardArea : MonoBehaviourPunCallbacks
 
         }
         */
-        
+
     }
 
     public IEnumerator TimeCount()//コルーチンで行う処理の定義

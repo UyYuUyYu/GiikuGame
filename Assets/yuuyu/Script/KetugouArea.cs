@@ -197,15 +197,18 @@ public class KetugouArea : MonoBehaviour
 
     public void Ketugou()
     {
-        int n = EnterJudge();
-        
-        //モルカードそ生成するエリアのほうで生成
-        _molCardArea.AddMolcard(n);
-        if (n < 10)
+        if (MolCardArea.isFullCardCount==false)
         {
-            ListDerete();
-            isFullStack = false;
+            int n = EnterJudge();
+            //モルカードそ生成するエリアのほうで生成
+            _molCardArea.AddMolcard(n);
+            if (n < 10)
+            {
+                ListDerete();
+                isFullStack = false;
+            }
         }
+        
 
 
     }
