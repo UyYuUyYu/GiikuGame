@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class MolCardArea : MonoBehaviourPunCallbacks
 {
@@ -17,6 +18,8 @@ public class MolCardArea : MonoBehaviourPunCallbacks
 
     int enemyGoukei = 0;
     static public  bool isFullCardCount = false;
+
+    [SerializeField] private TextMeshProUGUI _GoukeiText;
     void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -31,7 +34,7 @@ public class MolCardArea : MonoBehaviourPunCallbacks
         {
             isFullCardCount = true;
         }
-            
+        
         /*
         if (Input.GetKeyDown(KeyCode.A))
         {
@@ -134,6 +137,20 @@ public class MolCardArea : MonoBehaviourPunCallbacks
         print("自分" + goukei);
         ResultAnim.playerScore=goukei;
     }
+    
+    //カードの合計引数Listver←毎回合計値をMainで出すよう
+    public void MolCalculationList(List<int> MolCardNumber)
+    {
+        print("goukei");
+        int goukei = 0;
+        for (int i = 0; i < MolCardNumber.Count; i++)
+        {
+            if (MolCardNumber[i] < 10)
+                goukei = goukei + _MolCard[MolCardNumber[i]].GetComponent<MolcardInfo>().mass;
+        }
+        _GoukeiText.text = goukei.ToString("f0");
+    }
+    
     //敵のカードの合計値を求める
     [PunRPC]
     public void MolCalculationEnemy(int[] MolCardNumber)
