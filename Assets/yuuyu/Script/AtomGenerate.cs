@@ -5,11 +5,11 @@ using UnityEngine;
 public class AtomGenerate : MonoBehaviour
 {
     [SerializeField] private GameObject[] _atomObj;
-    private Transform canvasParent;
-    // Start is called before the first frame update
+    //private Transform canvasParent;
+    
     void Start()
     {
-        canvasParent = GameObject.Find("Canvas").transform;
+        //canvasParent = GameObject.Find("Canvas").transform;
         Genrate();
     }
 
@@ -18,7 +18,8 @@ public class AtomGenerate : MonoBehaviour
     {
         int randomNumber = Random.Range(0, 4);
         
-        GameObject clone=Instantiate(_atomObj[randomNumber], canvasParent);
+        //GameObject clone=Instantiate(_atomObj[randomNumber], canvasParent);
+        GameObject clone = Instantiate(_atomObj[randomNumber], this.gameObject.transform);
         clone.transform.position = this.transform.position;
         AtomScript atomScript = clone.GetComponent<AtomScript>();
         atomScript.atomGenerate = this.GetComponent<AtomGenerate>();

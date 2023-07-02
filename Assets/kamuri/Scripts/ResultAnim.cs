@@ -11,11 +11,16 @@ public class ResultAnim : MonoBehaviour
     [SerializeField] Image winTextImage;
     [SerializeField] Image loseTextImage;
     [SerializeField] Image drawTextImage;
-   // [SerializeField] int playerScore;
+
+    [SerializeField] Text playerScoreText;
+    [SerializeField] Text enemyScoreText;
+    // [SerializeField] int playerScore;
     //[SerializeField] int enemyScore;
     static public int playerScore;
     static public int enemyScore;
     float duration = 1f;
+
+    [SerializeField] GameObject _QuitButton;
 
     void Start()
     {
@@ -24,6 +29,10 @@ public class ResultAnim : MonoBehaviour
 
     void HalfAnim()
     {
+
+        playerScoreText.gameObject.SetActive(true);
+        enemyScoreText.gameObject.SetActive(true);
+
         playerWaveImage.DOFillAmount(0.6f, 1f);
         enemyWaveImage.DOFillAmount(0.6f, 1f)
             .OnComplete(() =>
@@ -40,17 +49,27 @@ public class ResultAnim : MonoBehaviour
                 {
                     DrawAnim();
                 }
+                
             });
+
     }
 
     void PlayerWinAnim()
     {
         playerWaveImage.transform.SetAsLastSibling();
+
+        playerScoreText.transform.SetAsLastSibling();
+        enemyScoreText.transform.SetAsLastSibling();
+
         playerWaveImage.DOFillAmount(1, 1.5f);
         enemyWaveImage.DOFillAmount(0.3f, 1.5f)
             .OnComplete(() =>
             {
                 winTextImage.gameObject.SetActive(true);
+
+                playerScoreText.gameObject.SetActive(false);
+                enemyScoreText.gameObject.SetActive(false);
+
                 winTextImage.transform.SetAsLastSibling();
                 winTextImage.transform.localScale = Vector3.zero;
                 winTextImage.color = new Color(winTextImage.color.r, winTextImage.color.g, winTextImage.color.b, 0f);
@@ -58,18 +77,27 @@ public class ResultAnim : MonoBehaviour
                 .SetEase(Ease.OutElastic);
                 winTextImage.DOFade(1f, duration)
                 .SetDelay(duration / 2f)
-                .SetEase(Ease.OutQuad);
+                .SetEase(Ease.OutQuad)
+                .OnComplete(() => { _QuitButton.SetActive(true); });
             });
     }
 
     void EnemyWinAnim()
     {
         enemyWaveImage.transform.SetAsLastSibling();
+
+        playerScoreText.transform.SetAsLastSibling();
+        enemyScoreText.transform.SetAsLastSibling();
+
         playerWaveImage.DOFillAmount(0.3f, 1.5f);
         enemyWaveImage.DOFillAmount(1, 1.5f)
             .OnComplete(() =>
             {
                 loseTextImage.gameObject.SetActive(true);
+
+                playerScoreText.gameObject.SetActive(false);
+                enemyScoreText.gameObject.SetActive(false);
+
                 loseTextImage.transform.SetAsLastSibling();
                 loseTextImage.transform.localScale = Vector3.zero;
                 loseTextImage.color = new Color(loseTextImage.color.r, loseTextImage.color.g, loseTextImage.color.b, 0f);
@@ -77,17 +105,25 @@ public class ResultAnim : MonoBehaviour
                 .SetEase(Ease.OutElastic);
                 loseTextImage.DOFade(1f, duration)
                 .SetDelay(duration / 2f)
-                .SetEase(Ease.OutQuad);
+                .SetEase(Ease.OutQuad)
+                .OnComplete(() => { _QuitButton.SetActive(true); });
             });
     }
 
     void DrawAnim()
     {
+        playerScoreText.transform.SetAsLastSibling();
+        enemyScoreText.transform.SetAsLastSibling();
+
         playerWaveImage.DOFillAmount(0.57f, 1.5f);
         enemyWaveImage.DOFillAmount(0.57f, 1.5f)
             .OnComplete(() =>
             {
                 drawTextImage.gameObject.SetActive(true);
+
+                playerScoreText.gameObject.SetActive(false);
+                enemyScoreText.gameObject.SetActive(false);
+
                 drawTextImage.transform.SetAsLastSibling();
                 drawTextImage.transform.localScale = Vector3.zero;
                 drawTextImage.color = new Color(drawTextImage.color.r, drawTextImage.color.g, drawTextImage.color.b, 0f);
@@ -95,7 +131,8 @@ public class ResultAnim : MonoBehaviour
                 .SetEase(Ease.OutElastic);
                 drawTextImage.DOFade(1f, duration)
                 .SetDelay(duration / 2f)
-                .SetEase(Ease.OutQuad);
+                .SetEase(Ease.OutQuad)
+                .OnComplete(() => { _QuitButton.SetActive(true); });
             });
     }
 }

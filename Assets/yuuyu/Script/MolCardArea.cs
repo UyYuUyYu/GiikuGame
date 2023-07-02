@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class MolCardArea : MonoBehaviourPunCallbacks
 {
@@ -11,29 +12,30 @@ public class MolCardArea : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject[] _MolCard;
     private GameObject _MyMolCardPos;
     [SerializeField] private GameObject _EnemyMolCardPos;
-    private int[] MyMolHairetu=new int[] { 100,100,100,100,100,100};
-    int enemyGoukei = 0;
 
+    [SerializeField] private GameObject _ResultAnime;
+    private int[] MyMolHairetu=new int[] { 100,100,100,100,100,100};
+
+    int enemyGoukei = 0;
+    static public  bool isFullCardCount = false;
+
+    [SerializeField] private TextMeshProUGUI _GoukeiText;
     void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
-        _MyMolCardPos = this.gameObject;
-        
-        
-        
+        _MyMolCardPos = this.gameObject; 
     }
-    void Start()
-    {
-        if(SceneManager.GetActiveScene().name == "Battle")
-        {
-            // SetBattleCard();
-            StartCoroutine(TimeCount());//コルーチンの開始
-        }
-    }
+   
     
 
     void Update()
     {
+        if (this.transform.childCount==6)
+        {
+            isFullCardCount = true;
+        }
+        
+        /*
         if (Input.GetKeyDown(KeyCode.A))
         {
             PhotonNetwork.LoadLevel("Battle");
@@ -45,14 +47,20 @@ public class MolCardArea : MonoBehaviourPunCallbacks
             SetBattleCard();
 
         }
-        
+        */
+
     }
 
-    private IEnumerator TimeCount()//コルーチンで行う処理の定義
+    public IEnumerator TimeCount()//コルーチンで行う処理の定義
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.4f);
         SetBattleCard();
         SetScore();
+        
+        yield return new WaitForSeconds(3.0f);
+        _ResultAnime.SetActive(true);
+        DeleteMolCardNumber();
+
     }
 
 
@@ -69,6 +77,7 @@ public class MolCardArea : MonoBehaviourPunCallbacks
         {
             GenerateMolCard(MolCardList._MyMolCardNumber[i]);
             MyMolHairetu[i] = MolCardList._MyMolCardNumber[i];
+            StartCoroutine("GenerateDeray");
         }
         photonView.RPC(nameof(EnemyMolCardGenerate), RpcTarget.Others, MyMolHairetu);
     }
@@ -128,6 +137,20 @@ public class MolCardArea : MonoBehaviourPunCallbacks
         print("自分" + goukei);
         ResultAnim.playerScore=goukei;
     }
+    
+    //カードの合計引数Listver←毎回合計値をMainで出すよう
+    public void MolCalculationList(List<int> MolCardNumber)
+    {
+        print("goukei");
+        int goukei = 0;
+        for (int i = 0; i < MolCardNumber.Count; i++)
+        {
+            if (MolCardNumber[i] < 10)
+                goukei = goukei + _MolCard[MolCardNumber[i]].GetComponent<MolcardInfo>().mass;
+        }
+        _GoukeiText.text = goukei.ToString("f0");
+    }
+    
     //敵のカードの合計値を求める
     [PunRPC]
     public void MolCalculationEnemy(int[] MolCardNumber)
@@ -151,7 +174,14 @@ public class MolCardArea : MonoBehaviourPunCallbacks
         for (int i = 0; i < MolCardNumber.Length; i++)
         {
             GenerateEnemyMolCard(MolCardNumber[i]);
+            StartCoroutine("GenerateDeray");
         }
     }
-    
+
+    public IEnumerator GenerateDeray()
+    {
+        yield return new WaitForSeconds(0.5f);
+    }
+
+
 }

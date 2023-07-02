@@ -12,6 +12,11 @@ public class CountDown : MonoBehaviourPunCallbacks
     [SerializeField] float _time;
     [SerializeField] private TextMeshProUGUI _text;
     bool isCountDown = false;
+    [SerializeField] TimeUpAnim _TimeUpAnim;
+
+    bool isTimeUp = false;
+
+    float zero = 0;
     // Start is called before the first frame update
     void Awake()
     {
@@ -34,8 +39,14 @@ public class CountDown : MonoBehaviourPunCallbacks
                 if(PhotonNetwork.IsMasterClient)
                     PhotonNetwork.LoadLevel("Battle");
                 */
-
-                SceneManager.LoadSceneAsync("Battle", LoadSceneMode.Single);
+                if (isTimeUp == false)
+                {
+                    _text.text=zero.ToString("F2");
+                    _TimeUpAnim.TimeUpEffet();
+                    isTimeUp = true;
+                }
+                
+                //SceneManager.LoadSceneAsync("Battle", LoadSceneMode.Single);
             }
             
         }
