@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-//using TMPro;
+using Photon.Pun;
+using Photon.Realtime;
+using TMPro;
 
 
-public class StartSceneManager : MonoBehaviour
+public class StartSceneManager : MonoBehaviourPunCallbacks
 {
-    /*
+    
     [SerializeField] private TextMeshProUGUI inputFieldText;
     public static string myName;
     // Start is called before the first frame update
@@ -16,18 +18,14 @@ public class StartSceneManager : MonoBehaviour
     {
         myName = "Player";
     }
-    void Update()
+   
+    public void StartButton()
     {
-        if (Input.GetKey(KeyCode.Space))
-        {
-            myName = inputFieldText.text;
-            print(myName);
-        }
-    }
-    void StartButton()
-    {
-        SceneManager.LoadScene("Main");
+        PhotonNetwork.NickName= inputFieldText.text;
         myName = inputFieldText.text;
+        print(PhotonNetwork.NickName);
+        SceneManager.LoadScene("WaitingScene");
+        
     }
-    */
+    
 }

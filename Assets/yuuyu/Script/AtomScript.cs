@@ -24,7 +24,7 @@ public class AtomScript : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 
     //AtomGenerateの生成された場所のものを保存しておく
     public AtomGenerate atomGenerate;
-    void Start()
+    void Awake()
     {
         ketugouArea = GameObject.Find("Area").GetComponent<KetugouArea>();
     }
@@ -47,6 +47,7 @@ public class AtomScript : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 
     public void OnEndDrag(PointerEventData eventData)
     {
+       
         // Areaに入っていたら消す、入っていなかったらドラッグ前の位置に戻す
         if (isEnterArea)
         {
